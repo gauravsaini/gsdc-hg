@@ -120,6 +120,12 @@ googleAnalytics = "UA-55422322-1"
     link = "https://www.facebook.com/gauravsainicom"
     target = "_blank"
 
+  [[params.social]]
+    title = "LinkedIn"
+    icon = "fa-linkedin"
+    link = "https://www.linkedin.com/in/gauravsainidotcom/"
+    target = "_blank"
+
   # Footer settings
   [params.footer]
     # If copyright is not set, author is used
