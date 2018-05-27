@@ -51,8 +51,7 @@ googleAnalytics = "UA-55422322-1"
         "Currently works at [IRESS](https://www.iress.com.au)",
         "Drinks Coffee..Spits Code",
       ]
-    biography = """A techno freak who loves to discuss technology in his free time."""
-
+    biography = """React | Artificial Intelligence | Blockchain"""
   # Contact form settings
 
   [params.contact]
