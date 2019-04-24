@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: gauravsaini.com
+Token: 434e37f9ac0e891df49b775db89ecacc45f779816f6ca212342afdada7f14a7e
