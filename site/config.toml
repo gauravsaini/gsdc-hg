@@ -23,7 +23,7 @@ googleAnalytics = "UA-55422322-1"
   favicon_ico = "favicon.ico"
   favicon_ico_sizes = "16x16 32x32"
   appleicon = "apple.png"
-
+  Description ="Offical Website Of Gaurav Saini" 
   # Additional options to supplement icons served
   #favicon_png = "favicon.png"
   #favicon_png_sizes = "96x96"
@@ -45,10 +45,11 @@ googleAnalytics = "UA-55422322-1"
     name = "Gaurav Saini"
     # Avatars can be written to images/avatars/
     avatar = "gsdc.jpg"
-    position = "Software Engineer"
+    position = "Senior Software Engineer"
     livesIn = "[Melbourne, Australia](https://goo.gl/maps/cxG15WTZgM82)"
     scope = [
-        "Currently works at [IRESS](https://www.iress.com.au)",
+        "Currently works at [Pepperstone](https://www.pepperstone.com)",
+        "Previously Worked at IRESS & Accenture",
         "Drinks Coffee..Spits Code",
       ]
     biography = """React | Artificial Intelligence | Blockchain"""
