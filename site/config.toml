@@ -45,10 +45,10 @@ googleAnalytics = "UA-55422322-1"
     name = "Gaurav Saini"
     # Avatars can be written to images/avatars/
     avatar = "gsdc.jpg"
-    position = "Engineering Chapter Lead"
+    position = "Engineer"
     livesIn = "[Melbourne, Australia](https://goo.gl/maps/cxG15WTZgM82)"
     scope = [
-        "Currently works at [Pepperstone](https://www.pepperstone.com)",
+        "Previously Worked at [Pepperstone](https://www.pepperstone.com)",
         "Previously Worked at [IRESS](https://www.iress.com.au) & [Accenture](https://www.accenture.com)",
         "Drinks Coffee..Spits Code",
       ]
