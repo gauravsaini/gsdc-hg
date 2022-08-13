@@ -115,11 +115,6 @@ googleAnalytics = "UA-55422322-1"
     link = "https://www.instagram.com/_gauravsaini.com_"
     target = "_blank"
 
-  [[params.social]]
-    title = "Facebook"
-    icon = "fa-facebook"
-    link = "https://www.facebook.com/gauravsainicom"
-    target = "_blank"
 
   [[params.social]]
     title = "LinkedIn"
