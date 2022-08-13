@@ -118,7 +118,7 @@ googleAnalytics = "UA-55422322-1"
   [[params.social]]
     title = "Facebook"
     icon = "fa-facebook"
-    link = "https://www.facebook.com/gauravsainicom"
+    link = "https://www.facebook.com"
     target = "_blank"
 
   [[params.social]]
