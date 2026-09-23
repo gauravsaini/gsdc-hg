@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cinematic personal site prototype for Gaurav Saini.">
+    <title>Gaurav Saini — Digital Consultant</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="art-loader" id="artLoader" role="status" aria-label="Opening Gaurav's personal site">
+      <div class="loader-grain" aria-hidden="true"></div>
+      <div class="loader-beam" aria-hidden="true"></div>
+      <div class="loader-light-line" aria-hidden="true"></div>
+      <div class="loader-sigil" aria-hidden="true">G<span>✳</span></div>
+      <div class="loader-orbit orbit-one" aria-hidden="true"></div>
+      <div class="loader-orbit orbit-two" aria-hidden="true"></div>
+      <div class="loader-rocket" aria-hidden="true"><span class="loader-rocket-window"></span><span class="loader-rocket-flame"></span></div>
+      <div class="loader-copy"><span class="loader-kicker mantra" lang="sa">व्योम्नोऽन्तरस्थोऽस्मि सदा विदूषकः</span><strong><span>GAURAV</span><span><em>SAINI</em></span></strong><span class="loader-subtitle">somewhere between wonder and work · Melbourne</span></div>
+      <div class="loader-prompt"><span></span>click the rocket to launch</div>
+      <div class="loader-footer"><span>Opening a small corner of the internet</span><span id="loaderProgress">000%</span></div>
+    </div>
+    <div class="site-shell">
+      <div class="noise" aria-hidden="true"></div>
+      <div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+      <header class="topbar">
+        <a class="wordmark" href="#top" aria-label="Gaurav Saini home">GS<span>/</span></a>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#now">Projects</a>
+          <a href="#about">A little about me</a>
+          <a href="#links">Links</a>
+        </nav>
+        <div class="topbar-actions">
+          <button class="rocket-switch" id="themeToggle" type="button" aria-pressed="false" aria-label="Launch into light theme">
+            <span class="rocket-halo" aria-hidden="true"></span>
+            <span class="rocket-ship" aria-hidden="true"><span class="rocket-window"></span><span class="rocket-fin rocket-fin-left"></span><span class="rocket-fin rocket-fin-right"></span><span class="rocket-flame"></span></span>
+          </button>
+          <button class="dynamic-island" id="islandToggle" type="button" aria-expanded="false" aria-controls="islandPanel">
+            <span class="status-dot"></span>
+            <span class="island-label">Orbiting: Melbourne</span>
+            <span class="island-chevron" aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <div class="island-panel" id="islandPanel" aria-hidden="true">
+          <span class="panel-kicker">LIVE SIGNAL / 127.0.0.1</span>
+          <strong>A small corner of the internet, currently orbiting Melbourne.</strong>
+          <div class="island-coordinates"><span>37°48′S</span><span>144°57′E</span><span>AEST · UTC+10</span></div>
+          <a href="mailto:me@gauravsaini.com">Send a signal <span>↗</span></a>
+        </div>
+      </header>
+
+      <main id="prototype-root"></main>
+
+      <div class="time-warp" aria-hidden="true"></div>
+
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
