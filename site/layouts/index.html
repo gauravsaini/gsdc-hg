@@ -32,10 +32,6 @@
           <a href="#links">Links</a>
         </nav>
         <div class="topbar-actions">
-          <button class="rocket-switch" id="themeToggle" type="button" aria-pressed="false" aria-label="Launch into light theme">
-            <span class="rocket-halo" aria-hidden="true"></span>
-            <span class="rocket-ship" aria-hidden="true"><span class="rocket-window"></span><span class="rocket-fin rocket-fin-left"></span><span class="rocket-fin rocket-fin-right"></span><span class="rocket-flame"></span></span>
-          </button>
           <button class="dynamic-island" id="islandToggle" type="button" aria-expanded="false" aria-controls="islandPanel">
             <span class="status-dot"></span>
             <span class="island-label">Orbiting: Melbourne</span>
@@ -43,10 +39,13 @@
           </button>
         </div>
         <div class="island-panel" id="islandPanel" aria-hidden="true">
-          <span class="panel-kicker">LIVE SIGNAL / 127.0.0.1</span>
-          <strong>A small corner of the internet, currently orbiting Melbourne.</strong>
-          <div class="island-coordinates"><span>37°48′S</span><span>144°57′E</span><span>AEST · UTC+10</span></div>
-          <a href="mailto:me@gauravsaini.com">Send a signal <span>↗</span></a>
+          <div class="signal-console-head"><span class="panel-kicker">LIVE SIGNAL / 127.0.0.1</span><span class="signal-state"><i></i>SYNCED</span></div>
+          <div class="signal-console">
+            <div class="signal-radar" aria-hidden="true"><span class="radar-sweep"></span><span class="radar-ring radar-ring-one"></span><span class="radar-ring radar-ring-two"></span><i class="radar-self"></i><b>GS</b></div>
+            <div class="signal-copy"><strong>Currently orbiting Melbourne.</strong><p>Somewhere between work, wonder, and the next strange idea.</p></div>
+          </div>
+          <div class="island-readouts"><span><small>COORDINATES</small><b>37°48′S<br>144°57′E</b></span><span><small>LOCAL TIME</small><b id="signalLocalTime">--:--</b></span><span><small>ORBIT</small><b id="signalOrbit">STABLE</b></span></div>
+          <a class="signal-action" href="mailto:me@gauravsaini.com"><span>Send a signal</span><span>↗</span></a>
         </div>
       </header>
 

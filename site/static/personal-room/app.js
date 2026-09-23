@@ -18,7 +18,12 @@ const variants = {
     className: "personal-a",
     template: () => `
       <section class="personal-hero personal-hero-a" id="top">
-        <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+        <canvas class="hero-canvas" id="heroCanvas" role="img" aria-label="A glowing sun at the centre of a moving planetary system"></canvas>
+        <div class="hero-voyager" id="heroVoyager" role="button" tabindex="0" aria-pressed="false" aria-label="Launch the voyager and travel between themes">
+          <span class="voyager-trail" aria-hidden="true"></span>
+          <span class="voyager-ship" aria-hidden="true"><span class="voyager-nose"></span><span class="voyager-window"><img src="${avatar}" alt="Gaurav Saini in the voyager cockpit"></span><span class="voyager-fin voyager-fin-top"></span><span class="voyager-fin voyager-fin-bottom"></span><span class="voyager-flame"></span></span>
+          <span class="voyager-signal" aria-hidden="true">GAURAV / VOYAGER</span>
+        </div>
         <span class="hero-art-label">PERSONAL STUDY / NO. 01</span>
         <div class="personal-copy" data-reveal>
           <span class="personal-eyebrow">hello from Melbourne <span>✳</span></span>
@@ -27,7 +32,6 @@ const variants = {
           <div class="personal-facts"><span>React / AI / Blockchain</span><span>Currently at IAG</span></div>
           <div class="actions"><a class="button primary magnetic" href="https://github.com/gauravsaini" target="_blank" rel="noreferrer">Wander through my GitHub <span>↗</span></a><a class="button quiet" href="#now">See the projects ↓</a></div>
         </div>
-        <div class="personal-portrait portrait-a" data-tilt data-reveal="slow"><img src="${avatar}" alt="Portrait of Gaurav Saini"><span class="portrait-caption">Gaurav / 01</span></div>
         <span class="hand-note note-a">drinks coffee.<br>spits code.</span>
       </section>
 
@@ -51,9 +55,13 @@ const root = document.querySelector("#prototype-root");
 const island = document.querySelector("#islandToggle");
 const islandPanel = document.querySelector("#islandPanel");
 const themeToggle = document.querySelector("#themeToggle");
+const signalLocalTime = document.querySelector("#signalLocalTime");
+const signalOrbit = document.querySelector("#signalOrbit");
+let signalPulseTimer = 0;
 let lightTheme = false;
 let artFrame = 0;
 let galaxyScene = { stars: [], planets: [], seed: 0 };
+let voyagerRoute = { start: 0, end: 1, curve: .25 };
 let traveling = false;
 let travelStartedAt = 0;
 let travelClock = 0;
@@ -65,13 +73,34 @@ function closeIsland() {
   island.setAttribute("aria-expanded", "false");
   islandPanel.setAttribute("aria-hidden", "true");
   islandPanel.classList.remove("is-open");
+  island.classList.remove("is-awake");
+}
+
+function updateSignalReadout() {
+  if (signalLocalTime) {
+    signalLocalTime.textContent = new Intl.DateTimeFormat("en-AU", {
+      timeZone: "Australia/Melbourne",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false
+    }).format(new Date());
+  }
+  if (signalOrbit) {
+    const states = ["STABLE", "CURIOUS", "IN MOTION", "STABLE"];
+    signalOrbit.textContent = states[Math.floor(Date.now() / 5000) % states.length];
+  }
 }
 
 function setTheme(light) {
   lightTheme = light;
   document.body.classList.toggle("theme-light", light);
-  themeToggle.setAttribute("aria-pressed", String(light));
-  themeToggle.setAttribute("aria-label", light ? "Launch into dark theme" : "Launch into light theme");
+  if (themeToggle) {
+    themeToggle.setAttribute("aria-pressed", String(light));
+    themeToggle.setAttribute("aria-label", light ? "Launch into dark theme" : "Launch into light theme");
+  }
+  const heroVoyager = document.querySelector("#heroVoyager");
+  if (heroVoyager) heroVoyager.setAttribute("aria-pressed", String(light));
 }
 
 function randomBetween(min, max) {
@@ -84,6 +113,13 @@ function randomInteger(min, max) {
 
 function shuffled(values) {
   return [...values].sort(() => Math.random() - .5);
+}
+
+function createVoyagerRoute() {
+  const start = randomInteger(0, 3);
+  let end = randomInteger(0, 3);
+  while (end === start) end = randomInteger(0, 3);
+  return { start, end, curve: (Math.random() > .5 ? 1 : -1) * randomBetween(.2, .34) };
 }
 
 function createGalaxyScene() {
@@ -136,15 +172,24 @@ function createGalaxyScene() {
 
 function randomizeGalaxy() {
   galaxyScene = createGalaxyScene();
+  voyagerRoute = createVoyagerRoute();
+}
+
+function getThemeControls() {
+  return [themeToggle, document.querySelector("#heroVoyager")].filter(Boolean);
+}
+
+function clearLaunchState() {
+  getThemeControls().forEach((control) => control.classList.remove("is-launching"));
 }
 
 function launchThemeSwitch() {
   const nextTheme = !lightTheme;
   document.body.classList.remove("is-traveling");
-  themeToggle.classList.remove("is-launching");
+  clearLaunchState();
   void document.body.offsetWidth;
   document.body.classList.add("is-traveling");
-  themeToggle.classList.add("is-launching");
+  getThemeControls().forEach((control) => control.classList.add("is-launching"));
   traveling = true;
   travelStartedAt = performance.now();
   randomizeGalaxy();
@@ -153,15 +198,26 @@ function launchThemeSwitch() {
   travelTimer = window.setTimeout(() => {
     traveling = false;
     document.body.classList.remove("is-traveling");
-    themeToggle.classList.remove("is-launching");
+    clearLaunchState();
   }, travelDuration);
+}
+
+function wireVoyager(voyager) {
+  if (!voyager) return;
+  voyager.addEventListener("click", launchThemeSwitch);
+  voyager.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      launchThemeSwitch();
+    }
+  });
 }
 
 function setVariant(updateUrl = true) {
   const variant = variants.a;
   traveling = false;
   window.clearTimeout(travelTimer);
-  themeToggle.classList.remove("is-launching");
+  clearLaunchState();
   root.innerHTML = variant.template();
   document.body.className = variant.className;
   setTheme(false);
@@ -176,9 +232,18 @@ island.addEventListener("click", () => {
   island.setAttribute("aria-expanded", String(!open));
   islandPanel.setAttribute("aria-hidden", String(open));
   islandPanel.classList.toggle("is-open", !open);
+  island.classList.toggle("is-awake", !open);
+  if (!open) {
+    updateSignalReadout();
+    document.body.classList.remove("signal-pulse");
+    void document.body.offsetWidth;
+    document.body.classList.add("signal-pulse");
+    window.clearTimeout(signalPulseTimer);
+    signalPulseTimer = window.setTimeout(() => document.body.classList.remove("signal-pulse"), 1100);
+  }
 });
 
-themeToggle.addEventListener("click", launchThemeSwitch);
+if (themeToggle) themeToggle.addEventListener("click", launchThemeSwitch);
 
 document.addEventListener("keydown", (event) => {
   if (["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)) return;
@@ -216,6 +281,7 @@ function wireInteractions() {
     card.addEventListener("pointerleave", () => { card.style.transform = ""; });
   });
 
+  wireVoyager(document.querySelector("#heroVoyager"));
   initHeroCanvas();
 }
 
@@ -253,10 +319,56 @@ function orbitPoint(centerX, centerY, orbit, angle) {
   };
 }
 
+function getVoyagerRoute(width, height) {
+  const marginX = Math.max(84, Math.min(width * .08, 150));
+  const marginY = Math.max(96, Math.min(height * .12, 150));
+  const corners = [
+    { x: marginX, y: marginY },
+    { x: width - marginX, y: marginY },
+    { x: width - marginX, y: height - marginY },
+    { x: marginX, y: height - marginY }
+  ];
+  const start = corners[voyagerRoute.start];
+  const end = corners[voyagerRoute.end];
+  const midpoint = { x: (start.x + end.x) / 2, y: (start.y + end.y) / 2 };
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const distance = Math.max(1, Math.hypot(dx, dy));
+  const normal = { x: -dy / distance, y: dx / distance };
+  const bend = Math.min(width, height) * voyagerRoute.curve;
+  const controlOne = {
+    x: start.x + (midpoint.x - start.x) * 1.05 + normal.x * bend,
+    y: start.y + (midpoint.y - start.y) * 1.05 + normal.y * bend
+  };
+  const controlTwo = {
+    x: end.x + (midpoint.x - end.x) * 1.05 + normal.x * bend,
+    y: end.y + (midpoint.y - end.y) * 1.05 + normal.y * bend
+  };
+  return { start, controlOne, controlTwo, end };
+}
+
+function getVoyagerPosition(time, width, height) {
+  const route = getVoyagerRoute(width, height);
+  const cycle = (time * .075) % 2;
+  const progress = cycle <= 1 ? cycle : 2 - cycle;
+  const direction = cycle <= 1 ? 1 : -1;
+  const inverse = 1 - progress;
+  const point = {
+    x: inverse ** 3 * route.start.x + 3 * inverse ** 2 * progress * route.controlOne.x + 3 * inverse * progress ** 2 * route.controlTwo.x + progress ** 3 * route.end.x,
+    y: inverse ** 3 * route.start.y + 3 * inverse ** 2 * progress * route.controlOne.y + 3 * inverse * progress ** 2 * route.controlTwo.y + progress ** 3 * route.end.y
+  };
+  const tangent = {
+    x: 3 * inverse ** 2 * (route.controlOne.x - route.start.x) + 6 * inverse * progress * (route.controlTwo.x - route.controlOne.x) + 3 * progress ** 2 * (route.end.x - route.controlTwo.x),
+    y: 3 * inverse ** 2 * (route.controlOne.y - route.start.y) + 6 * inverse * progress * (route.controlTwo.y - route.controlOne.y) + 3 * progress ** 2 * (route.end.y - route.controlTwo.y)
+  };
+  return { point, angle: Math.atan2(tangent.y * direction, tangent.x * direction) };
+}
+
 function initHeroCanvas() {
   if (artFrame) window.cancelAnimationFrame(artFrame);
   const canvas = document.querySelector("#heroCanvas");
   if (!canvas) return;
+  const voyager = document.querySelector("#heroVoyager");
   const context = canvas.getContext("2d");
   lastFrameAt = 0;
   randomizeGalaxy();
@@ -285,6 +397,13 @@ function initHeroCanvas() {
     const centerRatio = width < 800 ? .5 : .8;
     const centerX = width * (centerRatio + (galaxyScene.seed - .5) * .045);
     const centerY = height * (.47 + (galaxyScene.seed - .5) * .04);
+    if (voyager) {
+      const voyagerPosition = getVoyagerPosition(time, width, height);
+      const voyagerWidth = voyager.offsetWidth || 150;
+      const voyagerHeight = voyager.offsetHeight || 82;
+      voyager.style.setProperty("--voyager-angle", `${voyagerPosition.angle}rad`);
+      voyager.style.transform = `translate3d(${voyagerPosition.point.x - voyagerWidth / 2}px, ${voyagerPosition.point.y - voyagerHeight / 2}px, 0)`;
+    }
     context.clearRect(0, 0, width, height);
 
     const glow = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, height * .55);
@@ -302,7 +421,7 @@ function initHeroCanvas() {
       context.fill();
     });
 
-    const sunRadius = Math.max(18, Math.min(width, height) * .035);
+    const sunRadius = Math.max(52, Math.min(width, height) * .1);
     const sunGlow = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, sunRadius * 7);
     sunGlow.addColorStop(0, lightTheme ? "rgba(255, 218, 151, .44)" : "rgba(255, 205, 128, .3)");
     sunGlow.addColorStop(.18, lightTheme ? "rgba(255, 190, 101, .2)" : "rgba(255, 180, 88, .14)");
@@ -323,6 +442,25 @@ function initHeroCanvas() {
     context.arc(centerX, centerY, sunRadius, 0, Math.PI * 2);
     context.fill();
     context.shadowBlur = 0;
+
+    context.save();
+    context.globalAlpha = lightTheme ? .72 : .58;
+    for (let flare = 0; flare < 12; flare += 1) {
+      const flareAngle = flare * Math.PI / 6 + time * .12;
+      const flareLength = sunRadius * (1.25 + (flare % 3) * .2);
+      const startRadius = sunRadius * 1.08;
+      const startX = centerX + Math.cos(flareAngle) * startRadius;
+      const startY = centerY + Math.sin(flareAngle) * startRadius;
+      const endX = centerX + Math.cos(flareAngle) * (startRadius + flareLength);
+      const endY = centerY + Math.sin(flareAngle) * (startRadius + flareLength);
+      context.beginPath();
+      context.moveTo(startX, startY);
+      context.lineTo(endX, endY);
+      context.strokeStyle = flare % 2 ? "rgba(255, 223, 145, .34)" : "rgba(255, 183, 83, .5)";
+      context.lineWidth = flare % 3 === 0 ? 2 : 1;
+      context.stroke();
+    }
+    context.restore();
 
     for (let ring = 0; ring < galaxyScene.orbitCount; ring += 1) {
       const orbit = getOrbitGeometry(ring, width, height, time);
@@ -485,3 +623,5 @@ window.addEventListener("scroll", () => {
 setVariant(false);
 updateScroll();
 startArtLoader();
+updateSignalReadout();
+window.setInterval(updateSignalReadout, 1000);
