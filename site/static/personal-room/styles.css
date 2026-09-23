@@ -477,7 +477,7 @@ body.personal-a.theme-light .link-row a span, body.personal-a.theme-light .quiet
 @keyframes loaderExit { 0% { opacity: 1; clip-path: circle(150% at 50% 50%); } 100% { opacity: 0; clip-path: circle(0% at 50% 50%); } }
 
 .hero-canvas { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .95; }
-.hero-voyager { position: absolute; z-index: 1; top: 0; left: 0; width: 154px; height: 82px; cursor: pointer; transform-origin: center; transition: filter .5s ease; will-change: transform; }
+.hero-voyager { position: absolute; z-index: 4; top: 0; left: 0; width: 154px; height: 82px; pointer-events: auto; cursor: pointer; transform-origin: center; transition: filter .5s ease; will-change: transform; }
 .hero-voyager:hover, .hero-voyager:focus-visible { filter: drop-shadow(0 0 18px rgba(255,199,116,.58)); outline: none; }
 .voyager-ship { position: absolute; top: 15px; left: 21px; width: 110px; height: 47px; border: 1px solid rgba(255,255,255,.62); border-radius: 58% 48% 48% 58%; background: linear-gradient(145deg, #f7f4e9 0%, #b9c6d2 46%, #546476 100%); box-shadow: inset 8px 6px 13px rgba(255,255,255,.48), inset -12px -9px 17px rgba(18,29,44,.38), 0 12px 28px rgba(0,0,0,.36); transform: rotate(var(--voyager-angle, 0rad)); transform-origin: center; transition: box-shadow .35s ease; }
 .hero-voyager:hover .voyager-ship, .hero-voyager:focus-visible .voyager-ship { box-shadow: inset 8px 6px 13px rgba(255,255,255,.58), inset -12px -9px 17px rgba(18,29,44,.38), 0 12px 34px rgba(255,180,86,.28); }
