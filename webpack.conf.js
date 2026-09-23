@@ -1,29 +1,31 @@
-import webpack from "webpack";
-import path from "path";
+const path = require("path");
 
-export default {
+module.exports = {
   module: {
     rules: [
       {
-        test: /\.((png)|(eot)|(woff)|(woff2)|(ttf)|(svg)|(gif))(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "file-loader?name=/[hash].[ext]"
+        test: /\.(png|eot|woff|woff2|ttf|svg|gif)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "[hash][ext]"
+        }
       },
-      {test: /\.json$/, loader: "json-loader"},
       {
-        loader: "babel-loader",
-        test: /\.js?$/,
+        test: /\.txt$/i,
+        type: "asset/source"
+      },
+      {
+        test: /\.js$/i,
         exclude: /node_modules/,
-        query: {cacheDirectory: true}
+        use: {
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true
+          }
+        }
       }
     ]
   },
-
-  plugins: [
-    new webpack.ProvidePlugin({
-      "fetch": "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
-    })
-  ],
-
   context: path.join(__dirname, "src"),
   entry: {
     app: ["./js/app"]
@@ -33,5 +35,5 @@ export default {
     publicPath: "/",
     filename: "[name].js"
   },
-  externals:  [/^vendor\/.+\.js$/]
+  externals: [/^vendor\/.+\.js$/]
 };

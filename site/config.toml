@@ -1,13 +1,13 @@
 
 # Site settings
 baseurl = "http://example.org" #without ending slash
-languageCode = "en-us"
+locale = "en-us"
 title = "GauravSaini.com"
 theme = "hugo-identity-theme"
 
 
 # Disable unnecessary kinds
-disableKinds = ["page", "section", "taxonomy", "taxonomyTerm", "RSS", "sitemap", "robotsTXT", "404"]
+disableKinds = ["page", "section", "taxonomy", "RSS", "sitemap", "robotsTXT", "404"]
 
 # Enter your tracking code to enable Google Analytics
 googleAnalytics = "UA-55422322-1"
@@ -45,10 +45,10 @@ googleAnalytics = "UA-55422322-1"
     name = "Gaurav Saini"
     # Avatars can be written to images/avatars/
     avatar = "gsdc.jpg"
-    position = "Consultant (Digital)"
+    position = "Digital consultant at IAG"
     livesIn = "[Melbourne, Australia](https://goo.gl/maps/cxG15WTZgM82)"
     scope = [
-        "Currently works at GSDC Consultants",
+        "Currently works at IAG (Insurance Australia Group)",
         "Ex [Pepperstone](https://www.pepperstone.com), [IRESS](https://www.iress.com.au) & [Accenture](https://www.accenture.com)",
         "Drinks Coffee..Spits Code",
       ]

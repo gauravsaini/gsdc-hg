@@ -1,6 +1,6 @@
 /* PROTOTYPE — Personal room direction. Remove after the winning direction is absorbed into Hugo. */
 
-const avatar = "../site/static/images/avatars/gsdc.jpg";
+const avatar = "/images/avatars/gsdc.jpg";
 
 const commonFooter = `
   <footer class="site-footer personal-footer">
@@ -483,10 +483,5 @@ window.addEventListener("scroll", () => {
 }, { passive: true });
 
 setVariant(false);
-const normalizedUrl = new URL(window.location.href);
-if (normalizedUrl.searchParams.get("variant") !== "a") {
-  normalizedUrl.searchParams.set("variant", "a");
-  window.history.replaceState({}, "", `${normalizedUrl.pathname}?${normalizedUrl.searchParams}${normalizedUrl.hash}`);
-}
 updateScroll();
 startArtLoader();
